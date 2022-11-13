@@ -16,8 +16,8 @@ b1.pack()
 def upload_file():
     global img
     f_types = [('Jpg Files', "*.jpg")]
-    filename = filedialog.askopenfile(filetype=f_types)
-    img = Image.open(filename)
+    filename = filedialog.askopenfilename(filetypes=f_types)
+    img = Image.open(filename, "r")
     # resizing for fitting
     img_resize = img.resize((400, 200))
     img = ImageTk.PhotoImage(img_resize)
