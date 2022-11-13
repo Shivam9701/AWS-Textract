@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, END
 from tkinter.filedialog import askopenfile
 from PIL import Image, ImageTk
 import boto3
@@ -29,9 +29,25 @@ def upload_file():
     b2.pack()
     response = client.detect_document_text(
         Document={'Bytes': imgbytes})
+    out = [""]
     for item in response['Blocks']:
         if item['BlockType'] == 'WORD':
             print(item['Text'])
+            out.append(item['Text'])
+
+    my_w1 = tk.Tk()
+    my_w1.geometry("450x400")
+    my_w1.title("Words")
+    mf2 = ('Georgia', 18, 'bold')
+    l2 = tk.Label(my_w1, text="Identified Words\n", width=30, font=mf2)
+    l2.pack()
+    text = tk.Text(my_w1)
+    for sr in out:
+        text.insert(END, sr + '\n')
+    text.pack()
+    my_w1.mainloop()
+
+
 
 
 def get_image_byte(filename):
